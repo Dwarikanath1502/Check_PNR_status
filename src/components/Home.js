@@ -10,7 +10,7 @@ const Home = () => {
   const context = useContext(PnrContext)
   const url = `https://pnr-status-indian-railway.p.rapidapi.com/rail/${context.pnr}`
 
-  const errorMessage = async () => {
+  const fetchData = async () => {
     if (context.pnr === '') {
       return alert("Enter your PNR!")
     } else {
@@ -24,9 +24,9 @@ const Home = () => {
           setData(res.data)
           console.log(res.data)
         })
-      setData('')
         .catch(err => console.log(err))
     }
+      setData('')
   }
 
   return (
@@ -47,7 +47,7 @@ const Home = () => {
           color="primary"
           className='mx-3 py-1 px-4'
           style={{ borderRadius: '8px' }}
-          onClick={errorMessage}
+          onClick={fetchData}
         >
           Search
         </Button >
@@ -61,13 +61,13 @@ const Home = () => {
         {/*  */}
         <ListGroup>
           <ListGroupItem>
-            Charting : Done
+            Charting : {data.chart_status}
           </ListGroupItem>
           <ListGroupItem>
             Status : Confirmed
           </ListGroupItem>
           <ListGroupItem>
-            {/* Train no. : {data.journeyDetails?.trainNumber} */}
+            Train no. : {data.properties?.train_number}
           </ListGroupItem>
           <ListGroupItem>
             Train  : LTT Express
@@ -76,13 +76,13 @@ const Home = () => {
             Arrival date : 19-60-2022
           </ListGroupItem>
           <ListGroupItem>
-            Boarding Station : Muzaffarppur
+            Boarding Station : {data.required?.boarding_station}
           </ListGroupItem>
           <ListGroupItem>
             Reserved upto : Jaipur
           </ListGroupItem>
           <ListGroupItem>
-            Class : 3A
+            Class : {data.class}
           </ListGroupItem>
           {/* TODO: fetch list of customers */}
         </ListGroup>
