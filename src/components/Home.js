@@ -1,14 +1,15 @@
-import React, {useState ,useContext } from 'react'
+import React, { useState, useContext } from 'react'
 import { Container, Card, CardTitle, ListGroupItem, ListGroup, Button, Input, InputGroup } from 'reactstrap'
 import { PnrContext } from '../context/Context'
 import Axios from 'axios'
 
 const Home = () => {
 
-const [details, setDetails] = useState({})
+  const [data, setData] = useState({})
 
   const context = useContext(PnrContext)
   const url = `https://pnr-status-indian-railway.p.rapidapi.com/rail/${context.pnr}`
+
   const errorMessage = async () => {
     if (context.pnr === '') {
       return alert("Enter your PNR!")
@@ -19,8 +20,12 @@ const [details, setDetails] = useState({})
           'X-RapidAPI-Host': 'pnr-status-indian-railway.p.rapidapi.com'
         }
       })
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err))
+        .then(res => {
+          setData(res.data)
+          console.log(res.data)
+        })
+      setData('')
+        .catch(err => console.log(err))
     }
   }
 
@@ -62,7 +67,7 @@ const [details, setDetails] = useState({})
             Status : Confirmed
           </ListGroupItem>
           <ListGroupItem>
-            Train no. : 19602
+            {/* Train no. : {data.journeyDetails?.trainNumber} */}
           </ListGroupItem>
           <ListGroupItem>
             Train  : LTT Express
